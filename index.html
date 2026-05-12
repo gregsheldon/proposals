@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standalone Estimating Calculator</title>
+    <style>
+        /* --- Base Reset for the standalone calculator --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #0f172a; 
+            background-color: #cbd5e1; 
+            padding: 40px 20px;
+        }
+
+        /* Container to hold the calculator nicely */
+        .calculator-container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* ====================================================
+           FULL CALCULATOR AUDIT SECTION (CONTROL PANEL VIBE)
+           ==================================================== */
+        .form-section { 
+            background: #0f172a; color: #f8fafc; padding: 50px 40px; border-radius: 6px; 
+            border: 4px solid #334155; box-shadow: 12px 12px 0px #1e293b;
+        }
+        .form-section h3 { font-size: 2.2rem; margin-bottom: 15px; font-weight: 900; color: #fff; line-height: 1.1; text-transform: uppercase;}
+        .form-section .note { color: #94a3b8; font-size: 1.1rem; margin-bottom: 30px; display: block; font-weight: 500;}
+
+        .step-label-calc { 
+            display: inline-block; background: #ea580c; color: #fff; font-weight: 900; 
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;
+            margin: 30px 0 15px; padding: 6px 12px; border-radius: 2px; box-shadow: 3px 3px 0px #000;
+        }
+        
+        .input-grid-calc { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .input-group-calc { margin-bottom: 15px; text-align: left; }
+        .input-group-calc label { display: block; font-weight: 800; margin-bottom: 8px; color: #cbd5e1; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        /* Digital Panel Inputs */
+        .input-group-calc input { 
+            width: 100%; padding: 16px; background: #1e293b; border: 2px solid #475569; 
+            border-radius: 4px; color: #fff; font-family: 'Courier New', Courier, monospace; 
+            font-size: 1.5rem; font-weight: 900; text-align: center; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.4); transition: all 0.2s;
+        }
+        .input-group-calc input:focus { outline: none; border-color: #ea580c; background: #020617; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.6), 0 0 0 2px rgba(234, 88, 12, 0.3); }
+
+        /* Critical Pain Box (Free Data) */
+        .pain-box-calc { 
+            background: #000; color: #fff; padding: 35px; border-radius: 6px; margin: 30px 0 0 0; 
+            border: 2px solid #ef4444; box-shadow: inset 0 0 30px rgba(239, 68, 68, 0.15);
+        }
+        .stat-label-calc { color: #fca5a5; font-size: 0.95rem; text-transform: uppercase; font-weight: 900; text-align: center; margin-bottom: 10px; letter-spacing: 0.05em;}
+        .leak-value { font-size: 4.5rem; font-family: 'Courier New', Courier, monospace; font-weight: 900; color: #ef4444; line-height: 1.1; text-align: center; text-shadow: 0 0 15px rgba(239,68,68,0.4);}
+        
+        /* --- THE BLUR & LOCK MECHANISM --- */
+        .locked-wrapper { position: relative; margin-top: 30px; }
+        
+        .locked-content {
+            filter: blur(5px);
+            opacity: 1;
+            pointer-events: none;
+            user-select: none;
+            transition: all 0.5s ease;
+        }
+
+        .unlocked .locked-content {
+            filter: blur(0);
+            pointer-events: auto;
+            user-select: auto;
+        }
+
+        .locked-overlay {
+            position: absolute;
+            top: -20px; left: 0; right: 0; bottom: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 150px;
+            background: transparent;
+            border-radius: 6px;
+            transition: opacity 0.5s ease;
+        }
+
+        .unlocked .locked-overlay {
+            opacity: 0;
+            pointer-events: none;
+            display: none;
+        }
+
+        /* Capture Fields inside overlay */
+        .capture-fields { 
+            background: #1e293b; 
+            padding: 40px; 
+            border-radius: 6px; 
+            border: 2px solid #ea580c; 
+            border-top: 8px solid #ea580c; 
+            width: 90%; 
+            max-width: 550px; 
+            box-shadow: 0 0 40px rgba(234, 88, 12, 0.25), 0 25px 50px -12px rgba(0,0,0,0.9);
+            transform: scale(1.02);
+        }
+        
+        /* Lock Icon Animation */
+        @keyframes pulse-lock {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        .lock-icon {
+            display: inline-block;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: pulse-lock 2.5s infinite ease-in-out;
+        }
+
+        /* Custom List Styling for the Lock Box */
+        .lock-list {
+            text-align: left; color: #cbd5e1; font-size: 1.05rem; font-weight: 500; 
+            max-width: 440px; margin: 0 auto 25px; list-style-type: none; padding: 0;
+        }
+        .lock-list li {
+            margin-bottom: 12px; padding: 0 0 0 35px; position: relative; line-height: 1.4;
+        }
+        .lock-list li strong { color: #f8fafc; font-weight: 800;}
+        .lock-list li::before { 
+            content: "→"; position: absolute; left: 0; color: #ea580c; 
+            font-weight: 900; font-size: 1.4rem; top: -4px;
+        }
+
+        .btn-send { 
+            display: block; width: 100%; background-color: #ea580c; color: #ffffff; border: 3px solid #000; 
+            padding: 22px; font-size: 1.2rem; font-weight: 900; border-radius: 4px; cursor: pointer; 
+            text-transform: uppercase; letter-spacing: 0.05em; transition: 0.1s; margin-top: 20px; box-shadow: 6px 6px 0px #000; 
+        }
+        .btn-send:hover { background-color: #f97316; transform: translate(2px, 2px); box-shadow: 4px 4px 0px #000; }
+        .btn-send:active { transform: translate(6px, 6px); box-shadow: 0px 0px 0px #000; }
+
+        /* Inner Audit Styling */
+        .audit-results-box { background: #000; padding: 25px; border-radius: 6px; border: 2px solid #334155; font-size: 0.9rem; font-weight: 600; margin-bottom: 30px;}
+        .audit-step-line { display: flex; justify-content: space-between; margin-bottom: 12px; color: #94a3b8; align-items: center;}
+        .audit-step-line .math-res { font-weight: 900; color: #f8fafc; font-family: 'Courier New', Courier, monospace; font-size: 1.1rem;}
+
+        .detailed-math { background: #1e293b; border-left: 6px solid #3b82f6; padding: 25px; border-radius: 4px; margin-bottom: 30px; font-size: 0.9rem; color: #cbd5e1; }
+        .math-title { font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 15px; border-bottom: 2px solid #334155; padding-bottom: 8px;}
+        .math-item { margin-bottom: 20px; }
+        .math-item strong { color: #60a5fa; display: block; margin-bottom: 5px; font-size: 1.05rem;}
+        .math-explanation { font-style: italic; color: #94a3b8; margin-bottom: 8px; font-weight: 500;}
+        .formula-line { font-family: 'Courier New', Courier, monospace; font-weight: bold; display: block; background: #020617; padding: 12px 15px; border-radius: 4px; margin-top: 5px; color: #38bdf8; line-height: 1.4; border: 1px solid #1e3a8a;}
+
+        .gain-box-calc { background: #022c22; border: 2px solid #10b981; padding: 30px; border-radius: 6px; margin-bottom: 30px; box-shadow: inset 0 0 30px rgba(16,185,129,0.1); }
+        .gain-row-calc { display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 700; font-size: 1.1rem; color: #a7f3d0; text-transform: uppercase;}
+        .gain-val-calc { font-weight: 900; color: #34d399; font-family: 'Courier New', Courier, monospace; font-size: 1.3rem;}
+
+        @media (max-width: 600px) {
+            .form-section { padding: 30px 20px; }
+            .input-grid-calc { grid-template-columns: 1fr; }
+            .leak-value { font-size: 3rem; }
+            .capture-fields { padding: 30px 20px; width: 100%; transform: none; }
+            .audit-step-line { flex-direction: column; align-items: flex-start; }
+            .audit-step-line .math-res { margin-top: 5px; }
+            .locked-overlay { padding-top: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-container">
+    <div id="audit-section" class="form-section">
+        <h3>The 60-Second Profit Leak Auditor</h3>
+        <p class="note">Drop your shop's raw numbers into the calculator below. In less than a minute, this real-time audit will expose the exact math on where you are bleeding cash.</p>
+        
+        <form id="auditForm" action="https://formsubmit.co/gregwsheldon@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Profit Audit Result">
+            <input type="hidden" name="_captcha" value="false">
+            
+            <input type="hidden" name="_autoresponse" value="Here is the copy of your 60-Second Profit Leak Audit that you requested. A copy of these results has also been sent to Greg Sheldon for review. Take a look at the math below to see exactly where your estimating spreadsheets are bleeding margin.">
+            
+            <input type="hidden" id="h_drain" name="1_Current_Annual_Drain">
+            <input type="hidden" id="h_rate" name="2_True_Hourly_Rate">
+            <input type="hidden" id="h_labor" name="3_Annual_Labor_Leak">
+            <input type="hidden" id="h_volume" name="4_Annual_Pipeline_Volume">
+            <input type="hidden" id="h_error" name="5_Error_Risk_Liability">
+            <input type="hidden" id="h_5yr" name="6_Gross_5_Year_Leak">
+            <input type="hidden" id="h_net" name="7_Net_5_Year_Strategic_Gain">
+            <input type="hidden" id="h_hours" name="8_Hours_Reclaimed">
+            <input type="hidden" id="h_rev" name="9_New_Revenue_Opportunity">
+
+            <span class="step-label-calc">1. Shop Metrics</span>
+            <div class="input-grid-calc">
+                <div class="input-group-calc">
+                    <label>Avg. Job Size ($)</label>
+                    <input type="text" id="jobSize" value="25,000">
+                </div>
+                <div class="input-group-calc">
+                    <label>Quotes Per Week</label>
+                    <input type="number" id="quotes" value="10">
+                </div>
+            </div>
+
+            <span class="step-label-calc">2. Labor & Efficiency</span>
+            <div class="input-grid-calc">
+                <div class="input-group-calc">
+                    <label>Estimator Salary ($)</label>
+                    <input type="text" id="salary" value="80,000">
+                </div>
+                <div class="input-group-calc">
+                    <label>Burden Rate %</label>
+                    <input type="number" id="burden" value="30">
+                </div>
+            </div>
+            <div class="input-group-calc" style="margin-top:15px;">
+                <label>Minutes Per Quote (Manual Entry)</label>
+                <input type="number" id="minutes" value="45">
+            </div>
+
+            <div class="pain-box-calc">
+                <p class="stat-label-calc">Current Annual Profit Drain</p>
+                <div class="leak-value" id="cashResult">$0</div>
+            </div>
+
+            <div id="lockWrapper" class="locked-wrapper">
+                
+                <div class="locked-overlay">
+                    <div class="capture-fields">
+                        <div style="text-align: center; margin-bottom: 25px;">
+                            <span class="lock-icon">🔒</span>
+                            <h4 style="color:#f8fafc; font-size: 1.6rem; text-transform: uppercase; font-weight: 900; line-height: 1.15;">
+                                Don't just stare at the loss.<br><span style="color: #ea580c;">See exactly where it's happening.</span>
+                            </h4>
+                            <p style="color: #94a3b8; font-size: 1.05rem; font-weight: 500; margin-top: 15px; margin-bottom: 20px;">
+                                Drop your email below to instantly unblur your custom diagnostics and reveal:
+                            </p>
+                            
+                            <ul class="lock-list">
+                                <li><strong>The specific math</strong> silently bleeding your margins.</li>
+                                <li><strong>The exact number of hours</strong> you can claw back this week.</li>
+                                <li><strong>Your projected 5-Year Net Gain</strong> when you fix this leak today.</li>
+                            </ul>
+                            
+                            <p style="color: #64748b; font-size: 0.9rem; font-weight: 500; font-style: italic; margin-bottom: 5px;">
+                                (Plus, I'll send a permanent copy straight to your inbox).
+                            </p>
+                        </div>
+
+                        <div class="input-group-calc">
+                            <label>Your Name</label>
+                            <input type="text" name="name" required placeholder="John Doe" style="text-align:left; font-size: 1.1rem;">
+                        </div>
+                        <div class="input-group-calc">
+                            <label>Work Email</label>
+                            <input type="email" name="email" required placeholder="john@company.com" style="text-align:left; font-size: 1.1rem;">
+                        </div>
+                        
+                        <button type="submit" id="unlockBtn" class="btn-send">Reveal My Hidden Leaks →</button>
+                        <p style="text-align: center; font-size: 0.8rem; color: #64748b; margin-top: 20px; font-weight: 600;">Your data is confidential and treated as strict intellectual property.</p>
+                    </div>
+                </div>
+
+                <div class="locked-content">
+                    <div class="audit-results-box">
+                        <div class="audit-step-line">
+                            <span>Fully Burdened Hourly Rate</span>
+                            <span class="math-res" id="resHourlyRate">...</span>
+                        </div>
+                        <div class="audit-step-line">
+                            <span>Annual Labor Drain</span>
+                            <span class="math-res" id="resLaborLeak">...</span>
+                        </div>
+                        <div class="audit-step-line" style="margin-top: 10px; padding-top: 10px; border-top: 2px dotted #334155;">
+                            <span>Annual Pipeline Volume</span>
+                            <span class="math-res" id="resPipelineVolume" style="color: #cbd5e1;">...</span>
+                        </div>
+                        <div class="audit-step-line">
+                            <span>1% Human Error Liability</span>
+                            <span class="math-res" id="resErrorRisk">...</span>
+                        </div>
+                        <div class="audit-step-line" style="border-top: 2px solid #475569; padding-top: 12px; margin-top: 12px;">
+                            <span style="color:#fff; font-weight:800;">Gross 5-Year Profit Leak</span>
+                            <span class="math-res" id="resFiveYear" style="color: #ef4444; font-size:1.25rem;">...</span>
+                        </div>
+                        <div class="audit-step-line" style="margin-top: 5px; font-size: 0.95rem; color: #94a3b8;">
+                            <span>Minus One-Time System Cost:</span>
+                            <span class="math-res" style="color: #ef4444;">-$9,800</span>
+                        </div>
+                        <div class="audit-step-line" style="margin-top: 12px; padding-top: 12px; border-top: 2px solid #475569;">
+                            <span style="color:#fff; font-weight:800; font-size:1.1rem;">Net 5-Year Strategic Gain</span>
+                            <span class="math-res" id="resNetGain" style="color: #34d399; font-size:1.35rem;">...</span>
+                        </div>
+                    </div>
+
+                    <div class="detailed-math">
+                        <div class="math-title">Full Step-By-Step Logic</div>
+                        <div class="math-item">
+                            <strong>1. True Hourly Labor Cost:</strong>
+                            <p class="math-explanation">Most owners only look at base salary. We use a "Burden Rate" to account for the real cost to the business.</p>
+                            <span class="formula-line" id="formula-labor">...</span>
+                        </div>
+                        <div class="math-item">
+                            <strong>2. Yearly Quoting Resources:</strong>
+                            <p class="math-explanation">The literal cash spent on manual data entry instead of technical problem solving.</p>
+                            <span class="formula-line" id="formula-time">...</span>
+                        </div>
+                        <div class="math-item">
+                            <strong>3. Error Risk (Cost of Inaction):</strong>
+                            <p class="math-explanation">A 1% error rate (missed scope, bad formulas, fat-finger typos) is a highly conservative industry standard.</p>
+                            <span class="formula-line" id="formula-error-risk">...</span>
+                        </div>
+                    </div>
+
+                    <span class="step-label-calc">3. Reclaimed Growth</span>
+                    <div class="gain-box-calc">
+                        <div class="gain-row-calc">
+                            <span>Hours Reclaimed (60% Speed Gain):</span>
+                            <span class="gain-val-calc" id="hoursResult">...</span>
+                        </div>
+                        <div class="gain-row-calc" style="border-top: 2px solid #064e3b; margin-top: 12px; padding-top: 12px;">
+                            <span>New Potential Revenue:</span>
+                            <span class="gain-val-calc" id="revOpp">...</span>
+                        </div>
+                    </div>
+                </div> </div> </form>
+    </div>
+</div>
+
+<script>
+    const inputs = ['jobSize', 'quotes', 'salary', 'burden', 'minutes'];
+    const elements = {};
+    inputs.forEach(id => elements[id] = document.getElementById(id));
+
+    const cashEl = document.getElementById('cashResult');
+    const rHourlyRate = document.getElementById('resHourlyRate');
+    const rLaborLeak = document.getElementById('resLaborLeak');
+    const rPipelineVolume = document.getElementById('resPipelineVolume');
+    const rErrorRisk = document.getElementById('resErrorRisk');
+    const rFiveYear = document.getElementById('resFiveYear');
+    const rNetGain = document.getElementById('resNetGain');
+    const hoursEl = document.getElementById('hoursResult');
+    const revOppEl = document.getElementById('revOpp');
+
+    const fLabor = document.getElementById('formula-labor');
+    const fTime = document.getElementById('formula-time');
+    const fErrorRisk = document.getElementById('formula-error-risk');
+
+    // Hidden inputs for form submission
+    const hDrain = document.getElementById('h_drain');
+    const hRate = document.getElementById('h_rate');
+    const hLabor = document.getElementById('h_labor');
+    const hVolume = document.getElementById('h_volume');
+    const hError = document.getElementById('h_error');
+    const h5yr = document.getElementById('h_5yr');
+    const hNet = document.getElementById('h_net');
+    const hHours = document.getElementById('h_hours');
+    const hRev = document.getElementById('h_rev');
+
+    const format = (val) => val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const strip = (val) => val.replace(/,/g, '');
+
+    function runMath() {
+        ['salary', 'jobSize'].forEach(id => {
+            let raw = strip(elements[id].value);
+            if (elements[id] === document.activeElement) {
+                elements[id].value = format(raw.replace(/[^\d]/g, ''));
+            }
+        });
+
+        const salaryVal = parseFloat(strip(elements.salary.value)) || 0;
+        const jobSizeVal = parseFloat(strip(elements.jobSize.value)) || 0;
+        const quotesVal = parseFloat(elements.quotes.value) || 0;
+        const minsVal = parseFloat(elements.minutes.value) || 0;
+        const burdenVal = parseFloat(elements.burden.value) || 0;
+
+        const totalBurdened = salaryVal * (1 + (burdenVal / 100));
+        const hourlyRate = totalBurdened / 2080;
+        const bidsPerYear = quotesVal * 52;
+        const yearlyHours = (bidsPerYear * minsVal) / 60;
+        const yearlyLaborCost = yearlyHours * hourlyRate;
+        const annualVolume = bidsPerYear * jobSizeVal;
+        const errorRisk = annualVolume * 0.01;
+        const totalLeak = yearlyLaborCost + errorRisk;
+        const grossFiveYear = totalLeak * 5;
+        const netFiveYear = grossFiveYear - 9800;
+
+        const hoursBack = Math.round(yearlyHours * 0.60);
+        const revenueOpportunity = (hoursBack * 60 / (minsVal * 0.4)) * 0.025 * jobSizeVal;
+
+        fLabor.textContent = `> Math: $${format(salaryVal)} × ${1+(burdenVal/100)} Burden / 2,080 hrs = $${hourlyRate.toFixed(2)}/hr`;
+        fTime.textContent = `> Math: ${format(bidsPerYear)} bids/yr × ${minsVal} mins = ${Math.round(yearlyHours)} hrs/yr`;
+        fErrorRisk.textContent = `> Math: $${format(annualVolume)} Pipeline Volume × 1% = $${format(Math.round(errorRisk))}/yr Liability`;
+
+        cashEl.textContent = '$' + format(Math.round(totalLeak));
+        rHourlyRate.textContent = '$' + hourlyRate.toFixed(2) + '/hr';
+        rLaborLeak.textContent = '$' + format(Math.round(yearlyLaborCost));
+        rPipelineVolume.textContent = '$' + format(Math.round(annualVolume));
+        rErrorRisk.textContent = '$' + format(Math.round(errorRisk));
+        rFiveYear.textContent = '$' + format(Math.round(grossFiveYear));
+        rNetGain.textContent = '$' + format(Math.round(netFiveYear));
+        hoursEl.textContent = format(hoursBack) + ' HOURS';
+        revOppEl.textContent = '$' + format(Math.round(revenueOpportunity));
+
+        // Populate hidden fields so the emailed report is complete
+        hDrain.value = "$" + format(Math.round(totalLeak));
+        hRate.value = "$" + hourlyRate.toFixed(2) + "/hr";
+        hLabor.value = "$" + format(Math.round(yearlyLaborCost));
+        hVolume.value = "$" + format(Math.round(annualVolume));
+        hError.value = "$" + format(Math.round(errorRisk));
+        h5yr.value = "$" + format(Math.round(grossFiveYear));
+        hNet.value = "$" + format(Math.round(netFiveYear));
+        hHours.value = format(hoursBack) + " Hours";
+        hRev.value = "$" + format(Math.round(revenueOpportunity));
+    }
+
+    inputs.forEach(id => elements[id].addEventListener('input', runMath));
+    runMath();
+
+    // The Form Unlock Logic
+    document.getElementById('auditForm').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        
+        const form = e.target;
+        const btn = document.getElementById('unlockBtn');
+        const lockWrapper = document.getElementById('lockWrapper');
+
+        // Visual feedback
+        btn.textContent = "Unlocking...";
+        btn.style.backgroundColor = "#64748b";
+
+        // Submit form data to formsubmit.co in the background
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            // Success! Unblur the content
+            lockWrapper.classList.add('unlocked');
+            
+            // Show a temporary success message at the top of the unblurred section
+            const successMsg = document.createElement('div');
+            successMsg.innerHTML = `<div style="background: #059669; color: #fff; padding: 15px; text-align: center; font-weight: 800; border-radius: 4px; margin-bottom: 20px; border: 2px solid #047857; text-transform: uppercase;">✅ Report Emailed! Math Unlocked Below.</div>`;
+            document.querySelector('.locked-content').prepend(successMsg);
+        }).catch(error => {
+            // Fallback unlock if fetch fails
+            lockWrapper.classList.add('unlocked');
+        });
+    });
+
+</script>
+
+</body>
+</html>
