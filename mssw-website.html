@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Transformation & Growth Plan - MSSW LLC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Industrial Palette */
+            --steel-dark: #12151A;      /* Deep structural steel */
+            --steel-gray: #2A303A;      /* Lighter steel */
+            --industrial-orange: #FF5A00; /* Safety/Welding orange */
+            --orange-hover: #E04D00;
+            --bg-color: #F4F5F7;        /* Clean workshop gray */
+            --surface: #FFFFFF;
+            --text-main: #333C47;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --radius: 8px;
+            --success-green: #059669;
+            --danger-red: #DC2626;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .document-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        /* Hero Header */
+        header {
+            background-color: var(--steel-dark);
+            background-image: linear-gradient(145deg, var(--steel-dark) 0%, #1A2028 100%);
+            color: white;
+            padding: 70px 50px;
+            text-align: center;
+            border-bottom: 6px solid var(--industrial-orange);
+            position: relative;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+
+        .confidential-tag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        header h1 {
+            color: white;
+            font-size: 3em;
+            font-weight: 800;
+            margin: 0 0 15px 0;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            position: relative;
+        }
+
+        .subtitle {
+            font-size: 1.25em;
+            color: #A0ABC0;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .client-name {
+            color: white;
+            font-weight: 700;
+            border-bottom: 2px solid var(--industrial-orange);
+            padding-bottom: 2px;
+        }
+
+        /* Content Body */
+        .content-body {
+            padding: 50px;
+        }
+
+        .goal-box {
+            background: var(--steel-dark);
+            color: white;
+            padding: 30px;
+            margin: -80px 30px 40px 30px;
+            border-radius: var(--radius);
+            font-size: 1.2em;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            text-align: center;
+            border-top: 4px solid var(--industrial-orange);
+        }
+
+        .goal-box strong {
+            color: var(--industrial-orange);
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 1.5px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* ROI Highlight Box */
+        .roi-box {
+            background: linear-gradient(135deg, #FFF7ED 0%, #FFFFFF 100%);
+            border: 1px solid #FED7AA;
+            border-left: 5px solid var(--industrial-orange);
+            padding: 35px;
+            border-radius: var(--radius);
+            margin: 40px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .roi-box h3 {
+            color: var(--industrial-orange);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .roi-math {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: var(--steel-dark);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #FDBA74;
+        }
+
+        h2 {
+            color: var(--steel-dark);
+            font-size: 1.8em;
+            font-weight: 800;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            letter-spacing: -0.5px;
+        }
+
+        h3 {
+            color: var(--steel-gray);
+            font-size: 1.25em;
+            font-weight: 700;
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+
+        /* Value Highlight */
+        .value-highlight {
+            background-color: var(--steel-gray);
+            color: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .value-highlight h4 {
+            color: var(--industrial-orange);
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .value-highlight p {
+            color: #E5E7EB;
+        }
+
+        /* Before & After Grid */
+        .vs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0 40px 0;
+        }
+
+        .vs-card {
+            padding: 25px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .vs-card.old {
+            background-color: #FEF2F2;
+            border-color: #FECACA;
+        }
+
+        .vs-card.new {
+            background-color: #F0FDF4;
+            border-color: #BBF7D0;
+            box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.1);
+        }
+
+        .vs-card h4 {
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vs-card.old h4 { color: var(--danger-red); }
+        .vs-card.new h4 { color: var(--success-green); }
+
+        /* Two Column Grid */
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #F9FAFB;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--industrial-orange);
+            padding: 25px;
+            border-radius: 6px;
+            transition: transform 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .feature-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+            color: var(--steel-dark);
+            font-weight: 800;
+        }
+
+        .feature-card p {
+            margin: 0;
+            font-size: 0.95em;
+            color: var(--text-muted);
+        }
+
+        /* Positioning Statement */
+        .positioning-statement {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--steel-dark);
+            border-left: 5px solid var(--industrial-orange);
+            padding: 20px 30px;
+            margin: 40px 0;
+            background: #FFF5F0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: var(--steel-dark);
+            color: white;
+            font-weight: 600;
+            padding: 15px 20px;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        tr:nth-child(even) td {
+            background-color: #F9FAFB;
+        }
+
+        /* Specific Lists */
+        ul.checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.checklist li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+
+        ul.checklist li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--industrial-orange);
+            font-weight: bold;
+        }
+        
+        .keyword-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .pricing-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--industrial-orange);
+            box-shadow: 0 15px 30px rgba(255, 90, 0, 0.1);
+            transform: scale(1.02);
+            z-index: 2;
+        }
+
+        .badge-recommended {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--industrial-orange);
+            color: white;
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .pricing-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+            color: var(--steel-dark);
+        }
+
+        .pricing-card .price {
+            font-size: 2em;
+            font-weight: 800;
+            color: var(--steel-dark);
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pricing-card .price span {
+            font-size: 0.5em;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .pricing-card ul {
+            padding-left: 20px;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .pricing-card li {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+        }
+
+        /* Payment Structure */
+        .payment-milestones {
+            display: flex;
+            background: #F9FAFB;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 30px 0;
+        }
+
+        .milestone {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid var(--border);
+        }
+
+        .milestone:last-child {
+            border-right: none;
+        }
+
+        .milestone-pct {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--industrial-orange);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .milestone-title {
+            font-weight: 700;
+            color: var(--steel-dark);
+            margin-bottom: 5px;
+        }
+
+        .milestone-desc {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--steel-dark);
+            color: white;
+            padding: 60px 50px;
+            margin-top: 60px;
+            text-align: center;
+            border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .inaction-warning {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: var(--radius);
+            margin-bottom: 35px;
+            text-align: left;
+        }
+        
+        .inaction-warning h4 {
+            color: #FCA5A5;
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            border: none;
+            margin-top: 0;
+            padding-bottom: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--industrial-orange);
+            color: white;
+            padding: 18px 45px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 800;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 90, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 50px 20px; }
+            header h1 { font-size: 2.2em; }
+            .content-body { padding: 30px 20px; }
+            .goal-box { margin: -40px 10px 30px 10px; padding: 20px; }
+            .vs-grid { grid-template-columns: 1fr; }
+            .keyword-grid { grid-template-columns: 1fr; }
+            .payment-milestones { flex-direction: column; }
+            .milestone { border-right: none; border-bottom: 1px solid var(--border); }
+            .cta-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-wrapper">
+    <header>
+        <div class="confidential-tag">Confidential Proposal</div>
+        <h1>Website Transformation & Growth Plan</h1>
+        <div class="subtitle">Prepared exclusively for <span class="client-name">Jeff Matuszak, MSSW LLC</span></div>
+    </header>
+
+    <div class="content-body">
+        <div class="goal-box">
+            <strong>The Primary Objective</strong>
+            Turn MSSW's website into a serious, high-performing lead-generation system for commercial fabrication work.
+        </div>
+
+        <section>
+            <h2>1. Executive Summary & Opportunity</h2>
+            <p>MSSW’s website should do more than describe services. It should function as a lead-generation system that attracts the right commercial buyers, builds trust fast, and makes it easy for estimators and general contractors to request a quote. The goal is to position MSSW as the preferred fabrication partner for projects where precision, compliance, and schedule certainty matter most.</p>
+            <p>The opportunity is capturing <strong>high-intent local traffic</strong> from decision-makers who are actively searching for a reliable fabrication partner. The website must present MSSW as a strategic partner, not just a vendor.</p>
+            
+            <div class="roi-box">
+                <h3>The ROI & Break-Even Reality</h3>
+                <p>A $12,500 website rebuild is a capital investment in your estimating and sales infrastructure. Let's look at the numbers:</p>
+                <ul class="checklist" style="margin-bottom: 0;">
+                    <li>When dealing with $15,000 to $50,000+ commercial fabrication packages...</li>
+                    <li>If this new system generates just <strong>1 additional qualified lead per month</strong> that you win...</li>
+                    <li>That is upwards of $300,000 in new top-line revenue over the next 12 months.</li>
+                </ul>
+                <div class="roi-math">
+                    The Break-Even Point: You only need to win <em>one</em> moderate commercial project from this new lead engine to completely cover the cost of the 90-Day Growth Launch.
+                </div>
+            </div>
+
+            <h3>The Rebuilt Website Must Answer These Questions Instantly:</h3>
+            <ul class="checklist">
+                <li>Can MSSW handle this specific type of work?</li>
+                <li>Do they understand commercial schedules and site coordination?</li>
+                <li>Can they execute accurately from drawings, specs, field dimensions, and BOMs?</li>
+                <li>Can they fabricate and install cleanly?</li>
+                <li>How do I request a quote right now without wasting time?</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Positioning & Messaging Strategy</h2>
+            <p>MSSW will be positioned as a company that helps clients reduce risk and protect margins. The website should communicate that MSSW brings experience, technical capability, and reliable execution to commercial fabrication and installation work. That means shifting the copy from “what we do” to “why clients trust us to get it done right."</p>
+            
+            <div class="positioning-statement">
+                "Custom metal fabrication and installation for commercial projects that demand precision, compliance, and dependable turnaround."
+            </div>
+
+            <h3>Core Positioning Themes</h3>
+            <div class="two-col-grid">
+                <div class="feature-card">
+                    <h4>Project Certainty</h4>
+                    <p>Delivering on time and exactly as specified to protect the schedule and avoid costly delays.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Code-Conscious Fabrication</h4>
+                    <p>Emphasizing material accuracy, welding quality, CAD support, and clean submittals to protect the spec.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Responsive Communication</h4>
+                    <p>Providing clear, fast answers to keep projects moving and protect your budget from scope confusion.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Clean Execution</h4>
+                    <p>Delivering practical install planning, field measuring, and seamless jobsite execution on commercial schedules.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Conversion-First Design</h2>
+            <p>Before scaling traffic, the site must be redesigned to capture it efficiently. Commercial buyers move quickly, so the design should feature a <strong>clean, grid-based layout with modern typography and generous spacing</strong> to reduce friction and make the next step obvious.</p>
+            
+            <div class="value-highlight">
+                <h4>Inside the Mind of a Commercial Buyer</h4>
+                <p>Instead of generic “about us” language, the website will speak directly to the concerns of general contractors, estimators, and facility managers: missed deadlines, budget overruns, failed inspections, and coordination headaches. We will replace friction with trust signals like specific process photos, organized capability highlights, and highly functional contact forms.</p>
+            </div>
+            
+            <h3>Top Conversion Priorities:</h3>
+            <ul class="checklist">
+                <li><strong>Prominent "Request a Quote" buttons</strong> anchored on every core page.</li>
+                <li><strong>Dedicated Upload Portal</strong> for drawings and BOMs tailored for estimators and contractors.</li>
+                <li><strong>Frictionless contact forms</strong> for rapid project inquiries.</li>
+                <li><strong>Click-to-call functionality</strong> optimized for mobile users on job sites.</li>
+                <li><strong>Visual proof</strong> through featured projects, process photos, and capability highlights.</li>
+            </ul>
+
+            <div class="vs-grid">
+                <div class="vs-card old">
+                    <h4>The Old Way</h4>
+                    <p><em>"Hi, how much for some stainless counters?"</em></p>
+                    <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 0;">Missing dimensions, no drawing files attached, and no context. You are forced to chase down the details just to figure out if you even want to bid the job, wasting hours of takeoff time.</p>
+                </div>
+                <div class="vs-card new">
+                    <h4>The MSSW Lead Engine</h4>
+                    <p><em>Structured, complete, and ready for review.</em></p>
+                    <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 0;">A structured lead hits your inbox featuring: Company Name, Timeline, Material Specs, and crucially, an attached, clean BOM/Drawing file ready for you to parse and price.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. High-Intent SEO & Content Strategy</h2>
+            <p>Our SEO roadmap is strictly focused on high-intent local and commercial search queries. The goal is to improve local Google visibility and convert high-value traffic into qualified project inquiries.</p>
+            
+            <h3>Priority Keyword Targets</h3>
+            <p>The site will be optimized to rank for service + location searches that match how buyers actually look for fabricators:</p>
+            <ul class="checklist keyword-grid">
+                <li>Industrial metal fabrication North Carolina</li>
+                <li>Custom stainless steel fabrication North Carolina</li>
+                <li>Metal fabrication services</li>
+                <li>TIG welding services North Carolina</li>
+                <li>MIG welding services North Carolina</li>
+                <li>On-site metal installation</li>
+                <li>Commercial metal fabrication</li>
+                <li>Healthcare fabrication services NC</li>
+                <li>Restaurant stainless steel fabrication</li>
+                <li>Fabrication company near me</li>
+            </ul>
+
+            <h3>Building Local Authority</h3>
+            <p>To earn rankings, MSSW needs credibility beyond the website itself. That means establishing local backlinks, partner mentions, and trust signals that confirm MSSW is active in the commercial construction ecosystem. We will focus on building authority through:</p>
+            <ul class="checklist">
+                <li>Construction associations</li>
+                <li>Supplier and vendor partner pages</li>
+                <li>Local business organizations</li>
+                <li>General contractor references and directories</li>
+                <li>Featured project write-ups and client testimonials</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. The 90-Day Rollout Plan</h2>
+            <p>A phased rollout keeps the project focused and measurable. During the first 90 days, the emphasis should be on launching a site that is credible, fast, and conversion-ready, then strengthening it with content and local authority.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timeline</th>
+                        <th>Phase Focus</th>
+                        <th>Key Deliverables</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Days 1 - 30</strong></td>
+                        <td>Strategy & Structure</td>
+                        <td>Keyword map, new site architecture, copy framework, design direction.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Days 31 - 60</strong></td>
+                        <td>Build & Launch</td>
+                        <td>Homepage rebuild, service pages, quote forms, upload portal, mobile optimization.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Days 61 - 90</strong></td>
+                        <td>SEO & Authority</td>
+                        <td>GBP optimization, project pages, backlink outreach, review strategy.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>6. Investment Options</h2>
+            <p>Choose the engagement level that best aligns with MSSW's current growth objectives.</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h4>Strategy Blueprint</h4>
+                    <div class="price">$2,500</div>
+                    <p style="font-size: 0.85em; color: var(--text-muted); margin-top: -10px;">Best for planning before full commitment.</p>
+                    <ul>
+                        <li>Positioning & Sitemap</li>
+                        <li>Keyword Mapping</li>
+                        <li>Homepage Wireframe Direction</li>
+                        <li>Quote Flow Plan</li>
+                        <li>Priority Action List</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="badge-recommended">Recommended</div>
+                    <h4>90-Day Growth Launch</h4>
+                    <div class="price">$12,500</div>
+                    <p style="font-size: 0.85em; color: var(--text-muted); margin-top: -10px;">Maximum SEO growth & Lead generation.</p>
+                    <ul>
+                        <li><strong>Everything in Rebuild</strong></li>
+                        <li>Service Expansion Pages</li>
+                        <li>Initial Case Studies</li>
+                        <li>Google Business Profile Setup</li>
+                        <li>Schema Markup & Local SEO</li>
+                        <li>90-Day Conversion Tracking</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <h4>Conversion Rebuild</h4>
+                    <div class="price">$8,500</div>
+                    <p style="font-size: 0.85em; color: var(--text-muted); margin-top: -10px;">A modern site built to convert.</p>
+                    <ul>
+                        <li>Homepage & Core Service Pages</li>
+                        <li>Drawing/BOM Upload Flow</li>
+                        <li>Quote Form Optimization</li>
+                        <li>Mobile Optimization</li>
+                        <li>On-Page SEO Setup</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Payment Structure</h3>
+            <div class="payment-milestones">
+                <div class="milestone">
+                    <div class="milestone-pct">50%</div>
+                    <div class="milestone-title">Deposit</div>
+                    <div class="milestone-desc">To begin strategy, copy, and build planning.</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-pct">25%</div>
+                    <div class="milestone-title">Build Progress</div>
+                    <div class="milestone-desc">At design and page structure approval.</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-pct">25%</div>
+                    <div class="milestone-title">Launch Balance</div>
+                    <div class="milestone-desc">Before final launch and handoff.</div>
+                </div>
+            </div>
+
+            <h3>Optional Monthly Growth Support (Post-Launch)</h3>
+            <ul class="checklist">
+                <li><strong>Local SEO Maintenance ($1,500/mo):</strong> Includes GBP updates, SEO monitoring, technical checks, and review support.</li>
+                <li><strong>Content + SEO Growth ($2,500/mo):</strong> Includes two buyer-focused case studies/articles per month, internal linking, authority building, and conversion rate optimization.</li>
+            </ul>
+        </section>
+
+        <div class="cta-section">
+            <div class="inaction-warning">
+                <h4>The Cost of Inaction</h4>
+                <p style="margin: 0; color: #D1D5DB; font-size: 0.95em;">Right now, when a facility manager in Durham or Raleigh searches for commercial fabrication or metal installation, the top results are often outdated, hard-to-navigate websites. There is a massive vacuum for a modern, professional shop to dominate local search. Delaying this upgrade means leaving highly-qualified, high-intent leads on the table for competitors who are simply easier to find online.</p>
+            </div>
+            
+            <h2>Ready to Build Your Lead Engine?</h2>
+            <p style="margin-bottom: 20px;">The recommended path is the <strong>90-Day Growth Launch</strong>. This creates a complete commercial lead-generation system equipped with buyer-focused messaging, seamless quote intake, local SEO, and real project proof.</p>
+            
+            <p style="margin-bottom: 30px; color: #FDBA74; font-size: 1.05em; font-weight: 600;">
+                <em>Clicking the button below will take you to a secure PandaDoc agreement where you can select your preferred option and sign digitally.</em>
+            </p>
+
+            <a href="https://app.pandadoc.com/document/v2?token=03a855a10c6749c19885009fdc02420271a411c9" target="_blank" class="cta-button">Review & Sign Agreement</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
